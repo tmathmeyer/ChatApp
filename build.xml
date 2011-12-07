@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="ChatApp" default="compile">
+
+  <!-- Parameterize these so they can be changed later. -->
+  <property name="src" value="src"/>
+  <property name="build" value="build"/>
+  <property name="dist" value="dist"/>
+
+  <target name="init">
+    <mkdir dir="${build}"/>
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <target name="compile" depends="init" description="Compile all sources.">
+    <!-- Turning on the extra stuff will help you catch bugs earlier. -->
+    <javac srcdir="${src}" destdir="${build}"
+           optimize="on" debug="on" deprecation="on"
+           includeantruntime="false">
+      <compilerarg value="-Xlint"/>
+    </javac>
+    <!-- Copy any resources into the build directory. That's just the
+         background image at the moment. -->
+    <copy todir="${build}">
+      <fileset dir="${src}" excludes="**/*.java"/>
+    </copy>
+  </target>
+
+  <target name="run" depends="compile" description="Run the application.">
+    <java classname="Menu" classpath="${build}" fork="true"/>
+  </target>
+
+  <target name="dist" depends="compile" description="Create a jar file.">
+    <jar destfile="${dist}/${ant.project.name}.jar"
+         basedir="${build}">
+      <manifest>
+        <attribute name="Main-Class" value="Menu"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="clean" description="Delete all generated files.">
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>
