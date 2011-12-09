@@ -1,4 +1,3 @@
-javac Chat.java
-javac Menu.java
+set JAVA_HOME=C:\Program Files\Java\jdk1.7.0
 
-jar cvfm chat.jar manifest.txt *.class *.jpg
+ant dist
